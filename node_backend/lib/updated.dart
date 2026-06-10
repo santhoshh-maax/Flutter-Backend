@@ -9,7 +9,10 @@ class UpdatedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Updated Screeen")),
+      backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(title: const Text("Updated Screeen",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+      centerTitle: true,
+      backgroundColor: Colors.grey.shade200,),
       body: FutureBuilder(
         future: Api.getdata(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -36,7 +39,7 @@ class UpdatedScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(Icons.edit,color: Color.fromARGB(255, 10, 10, 10),),
                   ),
                 );
               },

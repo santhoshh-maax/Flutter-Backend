@@ -33,16 +33,23 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: const Text("Login Page"),
+        backgroundColor: Colors.grey.shade200,
+        centerTitle: true,
+        title: const Text("Login Page",
+        style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         ),
         body: Center(
           child: SingleChildScrollView(
+            child: SizedBox(
+              height: 400,
+              width: 350,
 
-          
-          child: Card(
+              child: Card(
+            color: Colors.white,
             elevation: 10,
+            
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(50),
             ),
             
             child: Padding(
@@ -60,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.blue),
 
               const Text(
-                 "Welcome Back User",
+                 "Welcome User",
                  
                  style: TextStyle(
                   fontSize: 20,
@@ -100,17 +107,20 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 // width: double.infinity,
                 height: 50,
+                
                 child: ElevatedButton(
                 onPressed: login,
 
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 246, 247, 245),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadiusGeometry.circular(20),
+                    
                   ),
                 ),
                 child: const Text ("Login",
-
-                style: TextStyle(fontSize: 20),),
+                
+                style: TextStyle(fontSize: 20, color: Colors.black),),
               ),
               ),
               
@@ -122,6 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
 
           ),
+
+            ),
+          
+          
 
           
         ),

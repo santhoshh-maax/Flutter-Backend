@@ -31,7 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("CRUD APP")),
+      backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade200,
+        centerTitle: true,
+        title: const Text("CRUD With MangoDB",
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
       body: Center(
         child: Column(
           

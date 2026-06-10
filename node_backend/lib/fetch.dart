@@ -8,7 +8,10 @@ class FetchData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Read Data")),
+      backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(title: const Text("Read Data",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+      centerTitle: true,
+      backgroundColor: Colors.grey.shade200),
       body: FutureBuilder(
         future: Api.getdata(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -20,6 +23,7 @@ class FetchData extends StatelessWidget {
               itemCount: pdata.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
+                  color: Colors.white,
                   child: ListTile(
                     leading: Text((index + 1).toString()),
                     title: Text(pdata[index].name.toString()),

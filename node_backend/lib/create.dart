@@ -15,38 +15,117 @@ class _CreateDataState extends State<CreateData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.grey.shade200,
+      appBar: AppBar(
+        
+        title: const Text("Create data",
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.grey.shade200,
+      ),
       body: Center(
-        child: Column(
+      
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: 500,
+            width: 350,
+            child: Card(
+            color: Colors.grey.shade200,
+          elevation: 20,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            
+            const Icon(
+              Icons.note,
+              size: 30,
+              color: Colors.blueAccent,
+
+            ),
+
+            const Text(
+              "Add Values here",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 30),
+
             TextField(
               controller: nameController,
-              decoration: InputDecoration(hintText: "Enter your name"),
-            ),
-            TextField(
-              controller: ageController,
-              decoration: InputDecoration(hintText: "Enter your age"),
-            ),
-            TextField(
-              controller: cityController,
-              decoration: InputDecoration(hintText: "Enter Your City"),
+              decoration: InputDecoration(
+                labelText: "Enter your name",
+                prefixIcon: Icon(Icons.person),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                )
+                ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
+            TextField(
+              controller: ageController,
+              decoration: InputDecoration(
+                labelText: "Enter your age",
+                prefixIcon: Icon(Icons.calculate),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                )
+                ),
+            ),
+            const SizedBox(height:20),
+            TextField(
+              controller: cityController,
+              decoration: InputDecoration(
+                labelText: "Enter Your City",
+                prefixIcon: Icon(Icons.location_city),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                )),
+            ),
+            const SizedBox(height: 20),
+
+            SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 246, 247, 245),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(20),
+                  )
+
+                ),
               onPressed: () {
                 var data = {
                   "name": nameController.text,
                   "age": ageController.text,
                   "city": cityController.text,
                 };
-
+                
                 Api.adddata(data);
               },
-              child: Text("Create Data"),
+              child: Text("Create Data",
+              style: TextStyle(fontSize: 20,color: Colors.black),
+              ),
             ),
+            ),
+            
           ],
         ),
+          ),
+          
+        ),
+          ),
+           
+        ),
+       
       ),
     );
   }
