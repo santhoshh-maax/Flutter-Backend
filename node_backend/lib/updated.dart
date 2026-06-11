@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:node_backend/edit.dart';
-import 'package:node_backend/model/product_model.dart';
+import 'package:node_backend/model/user_model.dart';
 import 'package:node_backend/services/api.dart';
 
 class UpdatedScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class UpdatedScreen extends StatelessWidget {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            List<details> pdata = snapshot.data;
+            List<Details> pdata = snapshot.data;
 
             return ListView.builder(
               itemCount: pdata.length,

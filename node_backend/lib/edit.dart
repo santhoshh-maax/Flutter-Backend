@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:node_backend/model/product_model.dart';
+import 'package:node_backend/model/user_model.dart';
 import 'package:node_backend/services/api.dart';
 
 class EditScreen extends StatefulWidget {
-  final details data;
+  final Details data;
   const EditScreen({super.key, required this.data});
 
   @override
@@ -39,6 +39,11 @@ class _EditScreenState extends State<EditScreen> {
           height: 500,
           width: 350,
           child: Card(
+            color: Colors.grey.shade200,
+            elevation: 20,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(20)
+            ),
           child: Padding(padding: const EdgeInsets.all(20),
           child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +76,7 @@ class _EditScreenState extends State<EditScreen> {
                 )
                 ),
             ),
-
+            const SizedBox(height: 20),
             TextField(
               controller: u_age,
               decoration:  InputDecoration(labelText:  "Age here",
@@ -80,6 +85,7 @@ class _EditScreenState extends State<EditScreen> {
                 borderRadius: BorderRadius.circular(20)
               )),
             ),
+            const  SizedBox(height: 20),
             TextField(
               controller: u_city,
               decoration:  InputDecoration(labelText: "City here",
@@ -108,10 +114,14 @@ class _EditScreenState extends State<EditScreen> {
                   "age": u_age.text,
                   "id": widget.data.id,
                 });
+                ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Data edited Sucessfully"),
+              backgroundColor: Colors.blue,)
+            );
             
               },
               child: const Text("Update Data",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
             ),
             ),
             

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const app = express();
 const userData = require("./userData");
-
+const loginData = require("./login");
 
 app.use(express.json());
 
@@ -20,6 +20,26 @@ mongoose.connect(
 )
 .then(() => {
     console.log("DB Connected");
+
+
+//post login
+
+app.post("/user/login", async (request, response) => {
+    console.log("LOGIN method", request.body);
+    try {
+        let check = await loginData.findOne({
+            username: request.body.username,
+            password: request.body.password,
+        });
+        console.log("check:",check);
+        response.status(200).json(check);
+    } catch (error) {
+        response.status(400).json({
+            'status': error.message
+        })
+    }
+});
+
 
 //post
 app.post("/add/data",async (request,response) => {

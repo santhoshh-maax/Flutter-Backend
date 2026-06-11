@@ -2,11 +2,41 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
-import 'package:node_backend/model/product_model.dart';
+import 'package:node_backend/model/user_model.dart';
 
 class Api {
+  //always change IP based on place where you are!!!!
+  //also change the proxy setting in emulator setting  page
+
+  //home ip
   static const baseurl = "http://192.168.1.11:2222/";
+
+  //college ip
+  // static const baseurl = "http://10.201.198.99:2222/";
+
+  //emulator ip
   // static const baseurl = "http://10.0.2.2:2222/";
+
+  //login
+  static Future login(data) async {
+    var url = Uri.parse(("${baseurl}user/login"));
+
+    try {
+      final responce = await http.post(url, body: data);
+      if (responce.statusCode == 200) {
+        var logindata = jsonDecode(responce.body);
+        print(logindata);
+        return (logindata);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+
+
   //post
   static adddata(Map pdata) async {
     var url = Uri.parse("${baseurl}add/data");
@@ -14,6 +44,7 @@ class Api {
       final responce = await http.post(url, body: pdata);
 
       if (responce.statusCode == 200) {
+        print(responce.body);
         var data = jsonDecode(responce.body.toString());
         print(data);
       } else {
@@ -26,7 +57,7 @@ class Api {
 
   //get
   static getdata() async {
-    List<details> storedvalues = [];
+    List<Details> storedvalues = [];
 
     var url = Uri.parse("${baseurl}get/data");
 
@@ -38,12 +69,7 @@ class Api {
 
         data.forEach((value) {
           storedvalues.add(
-            details(
-              name: value['name'],
-              age: value['age'],
-              city: value['city'],
-              id: value['_id'].toString(),
-            ),
+           Details.fromJson(value),
           );
         });
       }
