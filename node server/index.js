@@ -31,9 +31,11 @@ app.post("/user/login", async (request, response) => {
             username: request.body.username,
             password: request.body.password,
         });
-        console.log("check:",check);
+        console.log("Searching User:", request.body.username);
+        console.log("DB Result:", check);
         response.status(200).json(check);
     } catch (error) {
+        console.log("ERROR:", error);
         response.status(400).json({
             'status': error.message
         })
@@ -43,14 +45,16 @@ app.post("/user/login", async (request, response) => {
 
 //post
 app.post("/add/data",async (request,response) => {
-console.log("POST method", request.body);
+console.log("Recived data", request.body);
 
 let data = userData(request.body);
 
 try {
     let dataToStore = await data.save();
+    console.log("Saved Data:", dataToStore);
     response.status(200).json(dataToStore);
 } catch (error) {
+    console.log("ERROR:", error);
     response.status(400).json({
         'Status': error.message
     })
@@ -81,11 +85,16 @@ app.get("/get/data", async (request,response) => {
 
     try {
         let data = await userData.find();
+        console.log("Fetched Records:", data.length);
+        console.log(data);
         response.status(200).json(data);
         
     } catch (error) {
+        
+        console.log("ERROR:", error);
         response.status(400).json({
-            'Status': error.message
+            'Status': error.message,
+            
         })
         
     }
@@ -111,14 +120,20 @@ app.get("/get/data", async (request,response) => {
 app.put("/put/data/:id",  async (request,response) => {
     
     let id = request.params.id;
+     console.log("Update ID:", id);
     let UpdatedData = request.body;
+    console.log("Old Data Request:", UpdatedData);
     let options = { returnDocument: 'after' };
+   
+    
 
     try {
         const data = await userData.findByIdAndUpdate(id, UpdatedData, options);
+        console.log("Updated Record:", data);
 
         response.send(data)
     } catch (error) {
+        console.log("ERROR:", error);
         response.send(error.message)
     }
 
@@ -147,13 +162,16 @@ app.delete("/delete/data/:id", async (request,response) => {
 
     
     let id = request.params.id;
+    console.log("Delete ID:", id);
 
     try {
         const data = await userData.findByIdAndDelete(id);
+        console.log("Deleted Record:", data);
         response.json({
             'Status':" User Data Deleted from DB"
         });
     } catch (error) {
+        console.log("ERROR:", error);
         response.json(error.message);
     }
     

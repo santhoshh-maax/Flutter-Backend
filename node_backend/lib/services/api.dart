@@ -41,6 +41,7 @@ class Api {
   static adddata(Map pdata) async {
     var url = Uri.parse("${baseurl}add/data");
     try {
+      print(url);
       final responce = await http.post(url, body: pdata);
 
       if (responce.statusCode == 200) {

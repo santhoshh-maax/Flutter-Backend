@@ -75,7 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisSize: MainAxisSize.min,
 
                   children: [
-                    const Icon(Icons.lock, size: 60, color: Colors.blue),
+                    Image.asset("assets/logo.png",
+                    width: 60,
+                    height: 60),
+                    const SizedBox(height: 20),
+                    // const Icon(Icons.lock, size: 60, color: Colors.blue),
 
                     const Text(
                       "Welcome User",
@@ -154,6 +158,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 100,
+        color: Colors.blue,
+        child: const Center(
+          child: Text("Connect Lap & mobile in same network\n"
+           "      User name: san, Pwd: san@123",
+          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         ),
       ),
     );

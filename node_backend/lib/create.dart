@@ -19,7 +19,7 @@ class _CreateDataState extends State<CreateData> {
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: const Text(
-          "Create data",
+          "Create Page",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.grey.shade200,
         centerTitle: true,
         title: const Text(
-          "CRUD With MangoDB",
+          "Main Dashboard",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
@@ -46,9 +46,28 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
 
           children: [
+
+            Image.asset(
+              "assets/logo.png",
+              width: 100,
+              height: 100,
+            ),
+
+            const SizedBox(height: 20),
+           
+            const Text("Hi....."
+              "Here you can Create,Read,Update,Delete data.\n"
+            "using Node.js(Express) server connected with MongoDB",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            
+            ),
+            const SizedBox(height: 20),
             SizedBox(
               width: 220,
               height: 50,
+
+              
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
@@ -100,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const UpdatedScreen(),
+                      builder: (context) => const updateScreen(),
                     ),
                   );
                 },
@@ -146,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SnackBar(content: Text("Logout Sucessfully"),
                     backgroundColor: Colors.red,),
                   );
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const LoginScreen(),
@@ -164,7 +183,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 70,
+        color: Colors.blue,
+        child: const Center(
+          child: Text("Developed by: Santhosh P",
+          style: TextStyle(
+            fontSize: 20,fontWeight: FontWeight.bold
+          ),),
+          
         ),
       ),
     );

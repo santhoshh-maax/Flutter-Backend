@@ -16,7 +16,7 @@ class _DeleteScreenState extends State<DeleteScreen> {
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: const Text(
-          "Delete panel",
+          "Delete Page",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

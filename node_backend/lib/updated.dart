@@ -3,14 +3,19 @@ import 'package:node_backend/edit.dart';
 import 'package:node_backend/model/user_model.dart';
 import 'package:node_backend/services/api.dart';
 
-class UpdatedScreen extends StatelessWidget {
-  const UpdatedScreen({super.key});
+class updateScreen extends StatefulWidget {
+  const updateScreen({super.key});
 
+  @override
+  State<updateScreen> createState() => _updateScreenState();
+}
+
+class _updateScreenState extends State<updateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(title: const Text("Updated Screeen",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+      appBar: AppBar(title: const Text("Updated Page",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
       centerTitle: true,
       backgroundColor: Colors.grey.shade200,),
       body: FutureBuilder(
@@ -31,13 +36,17 @@ class UpdatedScreen extends StatelessWidget {
                     "City: ${pdata[index].city} | Age: ${pdata[index].age}",
                   ),
                   trailing: IconButton(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async{
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditScreen(data: pdata[index]),
+              
                         ),
                       );
+                      setState(() {
+                        
+                      });
                     },
                     icon: const Icon(Icons.edit,color: Color.fromARGB(255, 10, 10, 10),),
                   ),
