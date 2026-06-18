@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:node_backend/home.dart';
 import 'package:node_backend/services/api.dart';
+import 'services/storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,13 +18,24 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> login() async {
     String username = user.text.trim(); //used to remove extra spaces
     String password = pwd.text;
-
+    //after login send JWT token to frontend every rquest check the token valite?
+    //store in flutter secure storage
+    //generate in backend and store in front end and go through middleware to validate every request.
+    //middleware bacend oda part like a gateway.
     var data = {"username": username, "password": password};
 
     var result = await Api.login(data);
-
+    print(result);
     if (!mounted) return;
     if (result != null) {
+      await SecureStorage.saveToken(result["token"]);
+      String? token =
+    await SecureStorage.getToken();
+
+    print(token);
+
+      await SecureStorage.saveUsername(result["username"]);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Login Scuessfully"),
@@ -75,12 +87,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisSize: MainAxisSize.min,
 
                   children: [
-                    Image.asset("assets/logo.png",
-                    width: 60,
-                    height: 60),
+                    Image.asset("assets/logo.png", width: 60, height: 60),
                     const SizedBox(height: 20),
-                    // const Icon(Icons.lock, size: 60, color: Colors.blue),
 
+                    // const Icon(Icons.lock, size: 60, color: Colors.blue),
                     const Text(
                       "Welcome User",
 
@@ -110,16 +120,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         labelText: "Enter Password",
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
-                          icon: Icon(hidepassword
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                              onPressed: () {
-                          setState(() {
-                            hidepassword = !hidepassword;
-                          });
-                        },
+                          icon: Icon(
+                            hidepassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              hidepassword = !hidepassword;
+                            });
+                          },
                         ),
-                        
+
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -164,9 +176,11 @@ class _LoginScreenState extends State<LoginScreen> {
         height: 100,
         color: Colors.blue,
         child: const Center(
-          child: Text("Connect Lap & mobile in same network\n"
-           "      User name: san, Pwd: san@123",
-          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          child: Text(
+            "Connect Lap & mobile in same network\n"
+            "      User name: san, Pwd: san@123",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );

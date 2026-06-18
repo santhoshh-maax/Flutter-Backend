@@ -4,6 +4,7 @@ import 'package:node_backend/delete.dart';
 import 'package:node_backend/fetch.dart';
 import 'package:node_backend/login.dart';
 import 'package:node_backend/updated.dart';
+import 'package:node_backend/services/storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -140,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.blueAccent,
                 ),
                 onPressed: () {
+                   
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -160,21 +162,24 @@ class _HomeScreenState extends State<HomeScreen> {
             
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Logout Sucessfully"),
-                    backgroundColor: Colors.red,),
-                  );
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                },
+                onPressed: () async {
+                print("Before Logout:");
+                print(await SecureStorage.getToken());
+                await SecureStorage.logout();
+                print("After Logout:");
+                print(await SecureStorage.getToken());
+
+                if (!context.mounted) return;
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const LoginScreen(),
+                  ),
+                );
+              },
                 child: const Text(
                   "Log out",
-
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

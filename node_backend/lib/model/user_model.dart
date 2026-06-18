@@ -8,7 +8,9 @@ class Details {
   Details({required this.name, this.age, this.city, this.id});
 
   //from Json
-  factory Details.fromJson(Map<String, dynamic> json){
+  //responce in json
+  //factory - 
+  factory Details.fromJson(Map<String, dynamic> json){ //dynamic it can be any type eg. interger -> string
   return Details(
     id: json['_id'],
     name : json['name'],
