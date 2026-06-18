@@ -1,10 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 
 const app = express();
 const userData = require("./userData");
 const loginData = require("./login");
+
+const JWT_KEY = "santhosh@225";
 
 app.use(express.json());
 
@@ -31,9 +34,30 @@ app.post("/user/login", async (request, response) => {
             username: request.body.username,
             password: request.body.password,
         });
+        if (!check) {
+        return response.status(401).json({
+            message: "Invalid Login"
+        }); 
+        }
+
+        //jwt token
+        const token = jwt.sign(
+            {
+                id: check._id,
+                username: check.username
+            },
+            JWT_KEY,
+            {
+                expiresIn: "7d"
+            }
+        );
         console.log("Searching User:", request.body.username);
         console.log("DB Result:", check);
-        response.status(200).json(check);
+        response.status(200).json({
+            token: token,
+            username: check.username
+        }
+        );
     } catch (error) {
         console.log("ERROR:", error);
         response.status(400).json({
