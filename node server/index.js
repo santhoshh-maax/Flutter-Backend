@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const app = express();
 const userData = require("./userData");
 const loginData = require("./login");
+const authMiddleware = require("./middleware/auth");
 
 const JWT_KEY = "santhosh@225";
 
@@ -27,7 +28,7 @@ mongoose.connect(
 
 //post login
 
-app.post("/user/login", async (request, response) => {
+app.post("/user/login", async (request, responce) => {
     console.log("LOGIN method", request.body);
     try {
         let check = await loginData.findOne({
@@ -35,7 +36,7 @@ app.post("/user/login", async (request, response) => {
             password: request.body.password,
         });
         if (!check) {
-        return response.status(401).json({
+        return responce.status(401).json({
             message: "Invalid Login"
         }); 
         }
@@ -53,14 +54,14 @@ app.post("/user/login", async (request, response) => {
         );
         console.log("Searching User:", request.body.username);
         console.log("DB Result:", check);
-        response.status(200).json({
+        responce.status(200).json({
             token: token,
             username: check.username
         }
         );
     } catch (error) {
         console.log("ERROR:", error);
-        response.status(400).json({
+        responce.status(400).json({
             'status': error.message
         })
     }
@@ -68,7 +69,7 @@ app.post("/user/login", async (request, response) => {
 
 
 //post
-app.post("/add/data",async (request,response) => {
+app.post("/add/data",authMiddleware, async (request,responce) => {
 console.log("Recived data", request.body);
 
 let data = userData(request.body);
@@ -76,10 +77,10 @@ let data = userData(request.body);
 try {
     let dataToStore = await data.save();
     console.log("Saved Data:", dataToStore);
-    response.status(200).json(dataToStore);
+    responce.status(200).json(dataToStore);
 } catch (error) {
     console.log("ERROR:", error);
-    response.status(400).json({
+    responce.status(400).json({
         'Status': error.message
     })
     
@@ -96,7 +97,7 @@ try {
 // userData.push(pdata);
 // console.log("FINAL", pdata);
 
-// response.status(200).send({
+// responce.status(200).send({
 //     "Status_code": 200,
 //     "Message": "Data added successfully",
 //     "product": pdata
@@ -105,18 +106,17 @@ try {
 });
 
 //get
-app.get("/get/data", async (request,response) => {
-
+app.get("/get/data", authMiddleware, async (request,responce) => {
     try {
         let data = await userData.find();
         console.log("Fetched Records:", data.length);
         console.log(data);
-        response.status(200).json(data);
+        responce.status(200).json(data);
         
     } catch (error) {
         
         console.log("ERROR:", error);
-        response.status(400).json({
+        responce.status(400).json({
             'Status': error.message,
             
         })
@@ -126,13 +126,13 @@ app.get("/get/data", async (request,response) => {
 
     // console.log("GET method:",userData);
     // if(userData.length > 0){
-    //     response.status(200).send({
+    //     responce.status(200).send({
     //         "Status_code": 200,
     //         "Data": userData
     //     });
     // }
     // else{
-    //     response.status(200).send({
+    //     responce.status(200).send({
     //         "Status_code" : 200,
     //         "data": []
     //     });
@@ -141,7 +141,7 @@ app.get("/get/data", async (request,response) => {
 
 //PUT
 
-app.put("/put/data/:id",  async (request,response) => {
+app.put("/put/data/:id", authMiddleware, async (request,responce) => {
     
     let id = request.params.id;
      console.log("Update ID:", id);
@@ -155,10 +155,10 @@ app.put("/put/data/:id",  async (request,response) => {
         const data = await userData.findByIdAndUpdate(id, UpdatedData, options);
         console.log("Updated Record:", data);
 
-        response.send(data)
+        responce.send(data)
     } catch (error) {
         console.log("ERROR:", error);
-        response.send(error.message)
+        responce.send(error.message)
     }
 
 
@@ -173,7 +173,7 @@ app.put("/put/data/:id",  async (request,response) => {
     // userData[index] = request.body;
     // console.log("UPDATED DATA", request.body);
 
-    // response.status(200).send({
+    // responce.status(200).send({
     //     "Status_Code": 200,
     //     "Message": "Data Updated"
     // })
@@ -182,7 +182,7 @@ app.put("/put/data/:id",  async (request,response) => {
 
 //Delete 
 
-app.delete("/delete/data/:id", async (request,response) => {
+app.delete("/delete/data/:id",authMiddleware, async (request,responce) => {
 
     
     let id = request.params.id;
@@ -191,12 +191,12 @@ app.delete("/delete/data/:id", async (request,response) => {
     try {
         const data = await userData.findByIdAndDelete(id);
         console.log("Deleted Record:", data);
-        response.json({
+        responce.json({
             'Status':" User Data Deleted from DB"
         });
     } catch (error) {
         console.log("ERROR:", error);
-        response.json(error.message);
+        responce.json(error.message);
     }
     
     // let id = request.params.id*1;
@@ -211,7 +211,7 @@ app.delete("/delete/data/:id", async (request,response) => {
     // userData.splice(index,1);
     //  console.log("After:", userData);
 
-    // response.status(200).send({
+    // responce.status(200).send({
     //     "Status" : "Success",
     //     "message" : "data deleted" 
     // });

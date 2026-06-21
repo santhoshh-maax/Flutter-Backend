@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:node_backend/model/user_model.dart';
+import 'package:node_backend/services/storage.dart';
 
 class Api {
   //always change IP based on place where you are!!!!
@@ -16,6 +17,14 @@ class Api {
 
   //emulator ip
   // static const baseurl = "http://10.0.2.2:2222/";
+
+  //middleware code
+
+  static Future<Map<String, String>> getHeader() async {
+    String? token = await SecureStorage.getToken();
+
+    return {"Authorization": "Bearer $token"};
+  }
 
   //login
   static Future login(data) async {
@@ -36,13 +45,20 @@ class Api {
     }
   }
 
-
   //post
   static adddata(Map pdata) async {
     var url = Uri.parse("${baseurl}add/data");
     try {
       print(url);
-      final responce = await http.post(url, body: pdata);
+
+      //without middleware
+      // final responce = await http.post(url, body: pdata);
+
+      //middleware logic
+
+      var headers = await getHeader();
+
+      final responce = await http.post(url, body: pdata, headers: headers);
 
       if (responce.statusCode == 200) {
         print(responce.body);
@@ -63,15 +79,20 @@ class Api {
     var url = Uri.parse("${baseurl}get/data");
 
     try {
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
+      // final response = await http.get(url);
+
+      var headers = await getHeader();
+
+       print("Headers: $headers");
+
+
+      final responce = await http.get(url, headers: headers);
+      if (responce.statusCode == 200) {
+        var data = jsonDecode(responce.body);
         print(data);
 
         data.forEach((value) {
-          storedvalues.add(
-           Details.fromJson(value),
-          );
+          storedvalues.add(Details.fromJson(value));
         });
       }
 
@@ -86,10 +107,13 @@ class Api {
   static updatedata(id, body) async {
     var url = Uri.parse("${baseurl}put/data/$id");
 
-    final response = await http.put(url, body: body);
+    // final response = await http.put(url, body: body);
 
-    if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+    var headers = await getHeader();
+
+    final responce = await http.put(url, body: body, headers: headers);
+    if (responce.statusCode == 200) {
+      print(jsonDecode(responce.body));
     } else {
       print("Failed to update");
     }
@@ -100,10 +124,13 @@ class Api {
   static deletedata(id) async {
     var url = Uri.parse("${baseurl}delete/data/$id");
 
-    final response = await http.delete(url);
+    // final response = await http.delete(url);
+    var headers = await getHeader();
 
-    if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+    final responce = await http.delete(url, headers: headers);
+
+    if (responce.statusCode == 200) {
+      print(jsonDecode(responce.body));
     } else {
       print("Failed to delete");
     }
