@@ -9,8 +9,11 @@ class Api {
   //always change IP based on place where you are!!!!
   //also change the proxy setting in emulator setting  page
 
+  //laravel
+  static const baseurl = "http://192.168.1.11:2222/api/";
+
   //home ip
-  static const baseurl = "http://192.168.1.11:2222/";
+  // static const baseurl = "http://192.168.1.11:2222/";
 
   //college ip
   // static const baseurl = "http://10.201.198.99:2222/";
@@ -83,8 +86,7 @@ class Api {
 
       var headers = await getHeader();
 
-       print("Headers: $headers");
-
+      print("Headers: $headers");
 
       final responce = await http.get(url, headers: headers);
       if (responce.statusCode == 200) {
